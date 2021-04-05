@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}</title>
+</head>
+<body>
+    
+    <script src="unpkg__vue.js"></script>
+    <script>
+        const title = new Vue({
+            el: 'title',
+            data: {
+                title: 'vuetart'
+            }
+        })
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+                product: 'Wear',
+                menu: [
+                    'About',
+                    'Main',
+                    'Contacts',
+                    'VueTart'
+                    ],
+                indate: [],
+                image: '#', /*indate[0].variants[0].image*/
+                quantity: ''
+            },
+            methods: {
+                updateProduct(image,quantity){
+                    this.image = image
+                    this.quantity = quantity
+                }
+            },
+            computed: {
+                totalIndate () {
+                    return this.indate.reduce((sum, indatel) => {
+                        return sum + indatel.quantity
+                    }, 0)
+                },
+                /*totalQuantity () {
+                    return this.indatel.variants.reduce((sum, inVar) => {
+                        return sum + inVar.quantity
+                    }, 0)
+                }*/
+            },
+            created () {
+                fetch('mz7cg.json') //mz7cg.json
+                    .then(response => response.json())
+                    .then(json => {
+                        this.indate = json.products
+                    })
+            }
+        })
+    </script>
+</body>
+</html>

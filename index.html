@@ -1,28 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}</title>
+    <style>
+        li{display: flex; justify-content: space-around; text-align: left;}
+        li span{width: 20%;}
+        li button, li input{border-radius: 3px;}
+        .menu{display: flex; justify-content: space-around;}
+        .font__small{font-size: 50%;}
+        .warn{color: red;}
+        .color-box{width: 1em; height: 1em; border-radius: 3px; cursor: pointer;}
+        .img_product{width: 10em; height: 10em; border-radius: 3px;}
+        body{text-align: center;}
+    </style>
+</head>
+<body>
+    <a href="vuetart.html">Vue Tart</a>
+    <h1>Подготовка проекта: vue init webpack my-project</h1>
+    <h2>Ниже то что можно мутить на основе видео руководства с https://ru.vuejs.org</h2>
+    <div id="app">
+        <h2>{{ product }} are in stock.</h2>
+        <p>Вывод данных из массива загружаемых в скрипт в <a href="mz7cg.json">этом</a> файле json</p>
+        <ul class="menu">
+                <li v-for="menuel in menu">
+                    <a :href="menuel">{{ menuel }}</a>
+                </li>
+        </ul>
+        <p>Загрузка данных json с местного сервера</p>
+        <ul>
+                <li><span>id</span><span>name</span><span>color</span><!--span>quantity</span--></li>
+                <li v-for="indatel in indate">
+                    <span>{{indatel.id}}</span>
+                    <span>{{indatel.name}}</span>
+                    <span 
+                    class="color-box" 
+                    v-for="inVar in indatel.variants"
+                    :key="inVar.subId"
+                    :style="{ backgroundColor: inVar.color }"
+                    @click="updateProduct(inVar.image,inVar.quantity)"
+                    ></span>
+                </li>
+        </ul>
+        <p v-show="image !== '#'">
+            <img :src="image" alt="{{image}}" class="img_product">
+            <input type="number" v-model.number="quantity">
+            <button @click="quantity -= 1">-</button>
+            <button @click="quantity += 1">+</button>
+            <span v-if="quantity < 1" class="font__small warn"> - OUT OF STOCK</span>
+        </p>
+        <h2 v-show="totalIndate">Total Inventory: {{ totalIndate }}</h2>
+        <!--h2 v-show="totalQuantity">Total Quantity: {{ totalQuantity }}</h2-->
+    </div>
+    
+    <!--script src="https://unpkg.com/vue"></script-->
+    <script src="unpkg__vue.js"></script>
+    <script>
+        const title = new Vue({
+            el: 'title',
+            data: {
+                title: 'Wear for you'
+            }
+        })
 
-    <title>Hello!</title>
-    
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
-    
-    <!-- import the webpage's javascript file -->
-    <script src="/script.js" defer></script>
-  </head>  
-  <body>
-    <h1>Hi there!</h1>
-    
-    <p>
-      I'm your cool new webpage. Made with <a href="https://glitch.com">Glitch</a>!
-    </p>
-
-    <!-- include the Glitch button to show what the webpage is about and
-          to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js" defer></script>
-  </body>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                product: 'Wear',
+                menu: [
+                    'About',
+                    'Main',
+                    'Contacts',
+                    'VueTart'
+                    ],
+                indate: [],
+                image: '#', /*indate[0].variants[0].image*/
+                quantity: ''
+            },
+            methods: {
+                updateProduct(image,quantity){
+                    this.image = image
+                    this.quantity = quantity
+                }
+            },
+            computed: {
+                totalIndate () {
+                    return this.indate.reduce((sum, indatel) => {
+                        return sum + indatel.quantity
+                    }, 0)
+                },
+                /*totalQuantity () {
+                    return this.indatel.variants.reduce((sum, inVar) => {
+                        return sum + inVar.quantity
+                    }, 0)
+                }*/
+            },
+            created () {
+                fetch('mz7cg.json') //mz7cg.json
+                    .then(response => response.json())
+                    .then(json => {
+                        this.indate = json.products
+                    })
+            }
+        })
+    </script>
+</body>
 </html>

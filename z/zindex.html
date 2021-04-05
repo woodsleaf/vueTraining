@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}</title>
+    <style>
+        li{display: flex; justify-content: space-around; text-align: left;}
+        li span{width: 20%;}
+        li button, li input{border-radius: 3px;}
+        .menu{display: flex; justify-content: space-around;}
+        .font__small{font-size: 50%;}
+        .warn{color: red;}
+        /*.li_brief{text-align: left;}*/
+    </style>
+</head>
+<body>
+    <h1>Подготовка проекта: vue init webpack my-project</h1>
+    <h2>Ниже то что можно мутить на основе видео руководства с https://ru.vuejs.org</h2>
+    <div id="app">
+        <h2>{{ product }} are in stock.</h2>
+        <p>Вывод данных из массива находящегося в скрипте в этом файле</p>
+        <ul class="menu">
+                <li v-for="menuel in menu">
+                    <a :href="menuel">{{ menuel }}</a>
+                </li>
+        </ul>
+        <p>Загрузка данных json с местного сервера</p>
+        <ul>
+                <li><span>id</span><span>name</span><span>color</span><span>quantity</span></li>
+                <li v-for="indatel in indate">
+                    <span>{{indatel.id}}</span>
+                    <span>{{indatel.name}}</span>
+                    <span 
+                        class="color-box" 
+                        v-for="inVar in indatel.variants"
+                        :key="inVar.subId"
+                        :style="{ backgroundColor: inVar.color }"
+                        @mouseover="updateProduct(inVar.image)"
+                        ></span>
+                    <span>
+                        <input type="number" v-model.number="indatel.quantity">
+                        <button @click="indatel.quantity -= 1">-</button>
+                        <button @click="indatel.quantity += 1">+</button>
+                        <span v-if="indatel.quantity < 1" class="font__small warn"> - OUT OF STOCK</span>
+                    </span> 
+                </li>
+        </ul>
+        <h2>Total Inventory: {{ totalIndate }}</h2>
+        <!--p>Загрузка данных json с удаленного сервера</p>
+        <ul>
+                <li class="li_brief">
+                    <span>id</span>
+                    <span>name</span>
+                    <span>quantity</span>
+                </li>
+                <li v-for="outdatel in outdate">
+                    <span>{{outdatel.id}}</span>
+                    <span>{{outdatel.name}}</span>
+                    <span>
+                        <input type="number" v-model.number="outdatel.quantity">
+                        <button @click="outdatel.quantity -= 1">-</button>
+                        <button @click="outdatel.quantity += 1">+</button>
+                        <span v-if="outdatel.quantity < 1" class="font__small warn"> - OUT OF STOCK</span>
+                    </span>
+                </li>
+        </ul>
+        <h2>Total Inventory: {{ totalOutdate }}</h2-->
+    </div>
+    
+    <script src="https://unpkg.com/vue"></script>
+    <!--script src="unpkg__vue.js"></script-->
+    <script>
+        const title = new Vue({
+            el: 'title',
+            data: {
+                title: 'Boots'
+            }
+        })
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+                product: 'Boots',
+                menu: [
+                    'About',
+                    'Main',
+                    'Contacts'
+                    ],
+                indate: [],
+                /*outdate: []*/
+                /*"products": [{"id":1,"quantity":1,"name":"Compass"},{"id":2,"quantity":0,"name":"Jacket"},{"id":3,"quantity":5,"name":"Hiking Socks"},{"id":4,"quantity":2,"name":"Suntan Lotion"}]
+                ]*/
+            },
+            methods: {
+                updateProduct(image){
+                    this.image = image
+                }
+            },
+            computed: {
+                /*totalOutdate () {
+                    return this.outdate.reduce((sum, outdatel) => {
+                        return sum + outdatel.quantity
+                    }, 0)
+                },*/
+                totalIndate () {
+                    return this.indate.reduce((sum, indatel) => {
+                        return sum + indatel.quantity
+                    }, 0)
+                }
+            },
+            created () {
+                fetch('mz7cg.json') //mz7cg.json
+                    .then(response => response.json())
+                    .then(json => {
+                        this.indate = json.products
+                    })
+                /*fetch('https://api.myjson.com/bins/mz7cg') //mz7cg.json outdate
+                    .then(response => response.json())
+                    .then(json => {
+                        this.outdate = json.products
+                    })*/
+            }
+        })   // outside https://api.myjson.com/bins/mz7cg
+    </script>
+</body>
+</html>

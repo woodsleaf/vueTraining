@@ -1,0 +1,68 @@
+{
+    "products":[
+        {"id":1,"name":"Skirt",
+            "variants":[
+                {
+                    "subId": 11,
+                    "quantity":1,
+                    "color": "blue",
+                    "image": "img/blueskirt.jpg"
+                },
+                {
+                    "subId": 12,
+                    "quantity":2,
+                    "color": "black",
+                    "image": "img/blackskirt.jpg"
+                },
+                {
+                    "subId": 13,
+                    "quantity":3,
+                    "color": "red",
+                    "image": "img/redskirt.jpg"
+                }
+            ]},
+        {"id":2,"name":"Shirt",
+            "variants":[
+                {
+                    "subId": 21,
+                    "quantity":0,
+                    "color": "blue",
+                    "image": "img/blueshirt.jpg"
+                },
+                {
+                    "subId": 22,
+                    "quantity":5,
+                    "color": "black",
+                    "image": "img/blackshirt.jpg"
+                },
+                {
+                    "subId": 23,
+                    "quantity":7,
+                    "color": "red",
+                    "image": "img/redshirt.jpg"
+                }
+            ]},
+        {"id":3,"name":"Socks",
+            "variants":[
+                {
+                    "subId": 31,
+                    "quantity":6,
+                    "color": "blue",
+                    "image": "img/bluesocks.jpg"
+                },
+                {
+                    "subId": 32,
+                    "quantity":4,
+                    "color": "black",
+                    "image": "img/blacksocks.jpg"
+                },
+                {
+                    "subId": 33,
+                    "quantity":9,
+                    "color": "red",
+                    "image": "img/redsocks.jpg"
+                }
+            ]
+        }
+    ]
+}
